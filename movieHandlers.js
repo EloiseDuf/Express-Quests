@@ -135,6 +135,48 @@ const updateUser=(req,res)=>{
     });
 };
 
+const delateMovie=(req,res)=>{
+  const id = parseInt(req.params.id);
+
+  database
+    .query(
+      "delete from movies where id = ?",[id]
+    )
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.status(404).send("Not Found");
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error delating the movie");
+    });
+};
+
+const delateUser=(req,res)=>{
+  const id = parseInt(req.params.id);
+
+  database
+    .query(
+      "delete from users where id = ?",[id]
+    )
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.status(404).send("Not Found");
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error delating the user");
+    });
+};
+
+
+
 
 
 module.exports = {
@@ -144,4 +186,6 @@ module.exports = {
   postUser,
   updateMovie,
   updateUser,
+  delateMovie,
+  delateUser,
 };
