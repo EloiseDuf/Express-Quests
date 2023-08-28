@@ -11,12 +11,15 @@ const welcome = (req, res) => {
   res.send("Welcome to my favourite movie list");
 };
 
+
+
 app.get("/", welcome);
 
 const movieHandlers = require("./movieHandlers");
 const userHandlers=require("./userHandlers");
 const { validateMovie } = require("./validators.js");
 const { validateUser } = require("./validators.js");
+const { hashPassword } = require("./auth.js");
 
 app.get("/api/movies", movieHandlers.getMovies);
 app.get("/api/movies/:id", movieHandlers.getMovieById);
@@ -25,8 +28,8 @@ app.put("/api/movies/:id",validateMovie,movieHandlers.updateMovie);
 app.delete("/api/movies/:id",movieHandlers.delateMovie);
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUsersById);
-app.post("/api/users",validateUser, userHandlers.postUser);
-app.put("/api/users/:id",validateUser, userHandlers.updateUser);
+app.post("/api/users", hashPassword, validateUser, userHandlers.postUser);
+app.put("/api/users/:id", hashPassword, validateUser, userHandlers.updateUser);
 app.delete("/api/users/:id",userHandlers.delateUser);
 
 
