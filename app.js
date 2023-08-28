@@ -15,16 +15,18 @@ app.get("/", welcome);
 
 const movieHandlers = require("./movieHandlers");
 const users=require("./users");
+const { validateMovie } = require("./validators.js");
+const { validateUser } = require("./validators.js");
 
 app.get("/api/movies", movieHandlers.getMovies);
 app.get("/api/movies/:id", movieHandlers.getMovieById);
-app.post("/api/movies",movieHandlers.postMovie);
-app.put("/api/movies/:id",movieHandlers.updateMovie);
+app.post("/api/movies",  validateMovie,movieHandlers.postMovie);
+app.put("/api/movies/:id",validateMovie,movieHandlers.updateMovie);
 app.delete("/api/movies/:id",movieHandlers.delateMovie);
 app.get("/api/users", users.getUsers);
 app.get("/api/users/:id", users.getUsersById);
-app.post("/api/users",movieHandlers.postUser);
-app.put("/api/users/:id",movieHandlers.updateUser);
+app.post("/api/users",validateUser, movieHandlers.postUser);
+app.put("/api/users/:id",validateUser, movieHandlers.updateUser);
 app.delete("/api/users/:id",movieHandlers.delateUser);
 
 
